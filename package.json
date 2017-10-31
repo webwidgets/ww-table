@@ -1,0 +1,19 @@
+{
+  "name": "ww-table",
+  "version": "0.4.0",
+  "description": "An HTML table with pagination",
+  "main": "ww-table.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webwidgets/ww-table.git"
+  },
+  "author": "",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/webwidgets/ww-table/issues"
+  },
+  "homepage": "https://github.com/webwidgets/ww-table#readme"
+}
