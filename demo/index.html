@@ -20,14 +20,30 @@
 <html>
 <head>
 
+    <script type="text/javascript" src="../../ww-core/webwidgets.js"></script>
+    <script type="text/javascript" src="../../ww-core/utils.js"></script>
+
     <link rel="import" href="../ww-table.html">
+    <link rel="import" href="../ww-datasource-restful.html">
 
 </head>
 <body>
 
     <h2>WWTable Demo</h2>
 
-    <ww-table caption="Places"></ww-table>
+    <ww-table id="tblBooks" title="List of books">
+        <ww-datasource-restful id="dsBooks" slot="datasource"
+            header-keys="['id','key','name']"
+            header-labels="['ID','Key','Name']"
+            target-url="http://localhost/projects/trcloud/app/defgroups/list"
+        ></ww-datasource-restful>
+    </ww-table>
+
+    <script type="text/javascript">
+        const $tblBooks = document.querySelector('#tblBooks');
+        $tblBooks.refresh();
+        //$tblBooks.setDataSource(new WWDataSourceInLine());
+    </script>
 
 </body>
 </html>

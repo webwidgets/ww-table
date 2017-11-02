@@ -1,0 +1,87 @@
+<!--
+    @license
+    Copyright (C) 2016 - Donato Pirozzi (donatopirozzi[at]gmail[dot]com)
+    This file is part of WEBWIDGET framework.
+    WEBWIDGET is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    WEBWIDGET is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    Distributed under the GNU LGPL v3. For full terms see the file LICENSE.
+    License: http://www.gnu.org/licenses/lgpl.html LGPL version 3 or higher
+
+    Contributors:
+        - Donato Pirozzi (donatopirozzi[at]gmail[dot]com)
+-->
+
+<dom-module id="ww-datasource-restful">
+
+    <script type="text/javascript">
+
+        class WWDataSourceRestful extends HTMLElement {
+            constructor() { super(); }//EndConstructor.
+
+            /*connectedCallback() {
+                //TODO: check the type of the parent element.
+                //this.parentElement.onHeaderColumnsUpdate(this.getHeader());
+                debugger;
+            }//EndFunction.*/
+
+            static get is() { return 'ww-datasource-restful'; }
+
+            static get observedAttributes() { return [ 'header-labels', 'header-keys', 'target-url' ]; }
+
+            //Respond to attribute change.
+            attributeChangedCallback(attr, oldValue, newValue) {
+                if (attr == 'header-labels') {
+                    this._headerLabels = eval(newValue);
+                    this.attributeUpdateHeader();
+                } else if (attr == 'header-keys') {
+                    this._headerKeys = eval(newValue);
+                    this.attributeUpdateHeader();
+                } else if (attr == 'target-url')
+                    this._targetUrl = newValue;
+            }//EndFunction.
+
+            attributeUpdateHeader() {
+                this._header = [];
+
+                const _length = Utils.MathMinOfArraysLength(this._headerKeys, this._headerLabels);
+                for (let i=0; i<_length; i++) {
+                    var __column = { key: this._headerKeys[i], label: this._headerLabels[i] };
+                    this._header.push(__column);
+                }
+            }//EndFunction.
+
+            updateRows() {
+                if (typeof this._targetUrl === 'undefined')
+                    throw "No target-url attribute provided in the datasource";
+
+                const $self = this;
+                Utils.HttpGetRequest(this._targetUrl).then( datum => {
+                    var __jsonDatum = JSON.parse(datum)
+                    $self.parentElement.onRowsUpdate(__jsonDatum);
+                }).catch( err => {
+                    console.log(err);
+                });
+            }//EndFunction.
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            /// PUBLIC FUNCTIONS.
+            ///
+
+            load() {
+                this.parentElement.onHeaderColumnsUpdate(this._header); //Update the header.
+                this.updateRows(); //Update the rows.
+            }//EndFunction.
+
+        }//EndClass.
+
+        WebWidgets.define(WWDataSourceRestful);
+
+    </script>
+
+</dom-module>

@@ -37,14 +37,19 @@
                 width: 15px;
                 height: 15px;
             }
+
+            table, th, td {
+                border: 1px solid lightgrey;
+                border-collapse: collapse;
+            }
         </style>
 
         <table>
             <thead id="tblheader">
                 <tr>
-                    <th id="tblcaption" class="caption" colspan="100%"></th>
+                    <th id="tblTitle" class="caption" colspan="100%"></th>
                 </tr>
-                <tr>
+                <tr id="trHeaderCaptions">
 
                 </tr>
             </thead>
@@ -53,22 +58,74 @@
             </tbody>
         </table>
 
+        <slot id="dsSlot" name="datasource"></slot>
+
     </template>
 
-    <script type="text/javascript" src="../ww-core/webwidgets.js"></script>
     <script type="text/javascript">
+
         class WWTable extends HTMLElement {
 
             constructor() { super(); }//EndConstructor.
 
             static get is() { return 'ww-table'; }
 
-            static get observedAttributes() { return ['caption']; }
+            static get observedAttributes() { return ['title']; }
 
             //Respond to attribute change.
             attributeChangedCallback(attr, oldValue, newValue) {
-                if (attr == 'caption')
-                    this.$.tblcaption.innerText = newValue;
+                if (attr == 'title')
+                    this.$.tblTitle.innerText = newValue;
+            }//EndFunction.
+
+            ////////////////////////////////////////////////////////////////////////
+            /// CALLBACK FUNCTIONS.
+
+            onHeaderColumnsUpdate(columns) {
+                this._columns = columns;
+
+                //Render the label.
+                this.$.trHeaderCaptions.innerHtml = '';
+                for(let i=0; i<columns.length; i++) {
+                    const _column = columns[i];
+                    const _th = document.createElement('th');
+                    _th.innerText = _column.label;
+                    this.$.trHeaderCaptions.appendChild(_th);
+                }//EndFor.
+            }//EndFunction.
+
+            onRowsUpdate(dataRows) {
+                this._dataRows = dataRows;
+
+                //Check that the column object has been initialized.
+                if (typeof this._columns === 'undefined')
+                    throw "There are not column in the table.";
+
+                //Loop over rows and cols.
+                for (let i=0; i<dataRows.length; i++) {//Loop over rows.
+                    const _row = dataRows[i];
+                    const htr = document.createElement('tr');
+                    this.$.tblbody.appendChild(htr);
+
+                    for (let j=0; j<this._columns.length; j++) {//Loop over cols.
+                        const _col = this._columns[j];
+                        const _key = _col.key;
+                        const _value = _row[_key];
+
+                        const htd = document.createElement('td');
+                        htd.innerText = _value;
+                        htr.appendChild(htd);
+                    }//EndForCols.
+                }//EndForRows.
+
+            }//EndFunction.
+
+            ////////////////////////////////////////////////////////////////////////
+            /// PUBLIC FUNCTIONS.
+
+            refresh() {
+                const dsLoader = this.$.shadowRoot.querySelector('#dsSlot').assignedNodes()[0];
+                dsLoader.load();
             }//EndFunction.
 
         }//EndClass.
