@@ -1,0 +1,85 @@
+/**
+ ** @license
+ ** Copyright (C) 2016 - Donato Pirozzi (donatopirozzi[at]gmail[dot]com)
+    This file is part of POLYWC library.
+    POLYWC is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    POLYWC is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    Distributed under the GNU LGPL v3. For full terms see the file LICENSE.
+    License: http://www.gnu.org/licenses/lgpl.html LGPL version 3 or higher
+    Contributors:
+        - Donato Pirozzi (donatopirozzi[at]gmail[dot]com)
+*/
+
+ww-table {
+    background-color: red;
+    color: blue;
+}
+
+table {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    border-collapse: separate;
+    border-spacing: 0px;
+    border: solid 1px rgba(34,36,38,.1);
+    border-radius:3px;
+    width: 100%;
+    background-color: #fff;
+}
+/* HEADER STYLING */
+table .caption {
+    font-weight: normal;
+    text-align: left;
+    text-transform: uppercase;
+    color: #000000;
+}
+table thead tr:last-child, table thead tr:last-child th {
+    font-weight: bold;
+    font-size: 14px;
+    border-collapse: collapse;
+    padding-top: 10px;
+    color: #000000;
+}
+/* FOOTER STYLING */
+table tfoot th {
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,.54);
+}
+/* BODY STYLING */
+table tbody td {
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(0,0,0,.85);
+    padding: 8px 4px 8px 4px;
+}
+/* table body vertical line separators*/
+table tbody tr td:not(:first-child) {
+    border-left: solid 1px rgba(34,36,38,.05);
+}
+/* table body horizontal line separators*/
+table tbody tr:first-child td {
+    border-top: solid 1px rgba(34,36,38,.5);
+}
+table tbody tr td {
+    border-bottom: solid 1px rgba(238, 238, 238, .4);
+}
+/* Body: rows alternate colours */
+table tbody tr:nth-child(even) {
+    background-color: rgba(238, 238, 238, .2);
+}
+/* row mouse hover */
+table tbody tr:hover {
+    background-color: #eee!important;
+    cursor: pointer;
+    cursor: hand;
+}
+
+table, th, td {
+    border: 1px solid lightgrey;
+    border-collapse: collapse;
+}
