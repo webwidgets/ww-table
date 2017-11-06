@@ -65,7 +65,7 @@
                     var __jsonDatum = JSON.parse(datum)
                     $self.parentElement.onRowsUpdate(__jsonDatum);
                 }).catch( err => {
-                    console.log(err);
+                    $self.parentElement.onError({ message: "Cannot load the list of items." });
                 });
             }//EndFunction.
 

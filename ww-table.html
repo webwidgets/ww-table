@@ -17,13 +17,77 @@
         - Donato Pirozzi (donatopirozzi[at]gmail[dot]com)
 -->
 
-<!--<link rel="import" href="metal-style.html">-->
+<link rel="import" href="../ww-spinner/ww-spinner.html">
 
 <dom-module id="ww-table">
     <template>
 
         <!--<style is="custom-style" include="metal-style"></style>-->
         <style is="custom-style">
+
+            table {
+                font-family: Roboto,"Helvetica Neue",sans-serif;
+                border-collapse: separate;
+                border-spacing: 0px;
+                border: solid 1px rgba(34,36,38,.1);
+                border-radius:3px;
+                width: 100%;
+                background-color: #fff;
+            }
+            /* HEADER STYLING */
+            table .caption {
+                font-weight: normal;
+                text-align: left;
+                text-transform: uppercase;
+                color: #000000;
+            }
+            table thead tr:last-child, table thead tr:last-child th {
+                font-weight: bold;
+                font-size: 14px;
+                border-collapse: collapse;
+                padding-top: 10px;
+                color: #000000;
+            }
+            /* FOOTER STYLING */
+            table tfoot th {
+                font-weight: normal;
+                font-size: 14px;
+                color: rgba(0,0,0,.54);
+            }
+            /* BODY STYLING */
+            table tbody td {
+                font-weight: normal;
+                font-size: 14px;
+                color: rgba(0,0,0,.85);
+                padding: 8px 4px 8px 4px;
+            }
+            /* table body vertical line separators*/
+            table tbody tr td:not(:first-child) {
+                border-left: solid 1px rgba(34,36,38,.05);
+            }
+            /* table body horizontal line separators*/
+            table tbody tr:first-child td {
+                border-top: solid 1px rgba(34,36,38,.5);
+            }
+            table tbody tr td {
+                border-bottom: solid 1px rgba(238, 238, 238, .4);
+            }
+            /* Body: rows alternate colours */
+            table tbody tr:nth-child(even) {
+                background-color: rgba(238, 238, 238, .2);
+            }
+            /* row mouse hover */
+            table tbody tr:hover {
+                background-color: #eee!important;
+                cursor: pointer;
+                cursor: hand;
+            }
+
+            table, th, td {
+                border: 1px solid lightgrey;
+                border-collapse: collapse;
+            }
+
             .columnCommands {
                 padding: 0px;
                 margin: 0px;
@@ -35,23 +99,25 @@
             .error {
                 color: red;
             }
-            paper-spinner {
-                width: 15px;
-                height: 15px;
-            }
 
         </style>
 
         <table>
-            <thead id="tblheader">
+            <thead id="tblHead">
                 <tr>
-                    <th id="tblTitle" class="caption" colspan="100%"></th>
+                    <th class="caption" colspan="100%">
+                        <div>
+                            <ww-spinner id="spiLoading" hidden></ww-spinner>
+                            <span id="lblCaption"></span>
+                            <span id="lblErrorMessage" class="error" hidden>Error</span>
+                        </div>
+                    </th>
                 </tr>
                 <tr id="trHeaderCaptions">
 
                 </tr>
             </thead>
-            <tbody id="tblbody">
+            <tbody id="tblBody">
 
             </tbody>
         </table>
@@ -73,7 +139,7 @@
             //Respond to attribute change.
             attributeChangedCallback(attr, oldValue, newValue) {
                 if (attr == 'title')
-                    this.$.tblTitle.innerText = newValue;
+                    this.$.lblCaption.innerText = newValue;
             }//EndFunction.
 
             ////////////////////////////////////////////////////////////////////////
@@ -93,6 +159,9 @@
             }//EndFunction.
 
             onRowsUpdate(dataRows) {
+                //Initialize the table style.
+                this.$.lblErrorMessage.setAttribute("hidden", '');
+
                 this._dataRows = dataRows;
 
                 //Check that the column object has been initialized.
@@ -116,12 +185,21 @@
                     }//EndForCols.
                 }//EndForRows.
 
+                //Stop the spinner (hide it).
+                this.$.spiLoading.hide();
+            }//EndFunction.
+
+            onError(error) {
+                this.$.spiLoading.hide();
+                this.$.lblErrorMessage.innerText = error.message;
+                this.$.lblErrorMessage.removeAttribute("hidden");
             }//EndFunction.
 
             ////////////////////////////////////////////////////////////////////////
             /// PUBLIC FUNCTIONS.
 
             refresh() {
+                this.$.spiLoading.show();
                 const dsLoader = this.$.shadowRoot.querySelector('#dsSlot').assignedNodes()[0];
                 dsLoader.load();
             }//EndFunction.
