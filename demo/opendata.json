@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "result": {
+    "resource_id": "c0ad65f7-6000-4e0d-b972-275cf76d288b",
+    "fields": [
+      {
+        "type": "int4",
+        "id": "_id"
+      },
+      {
+        "type": "text",
+        "id": "Quarter"
+      },
+      {
+        "type": "text",
+        "id": "National Unemployment Rate SA (%)"
+      },
+      {
+        "type": "text",
+        "id": "Dublin Unemployment Rate SA (%)"
+      },
+      {
+        "type": "numeric",
+        "id": "Dublin Employed SA (000)"
+      }
+    ],
+    "records": [
+      { "id":"1",  "author":"Dan Brown", "title":"Digital Fortness", "year": 1998 },
+      { "id":"2",  "author":"Dan Brown", "title":"Angels & Demons", "year": 2000 },
+      { "id":"3",  "author":"Dan Brown", "title":"Deception point", "year": 2001},
+      { "id":"4",  "author":"Dan Brown", "title":"The Da Vinci Code", "year": 2003 },
+      { "id":"5",  "author":"Dan Brown", "title":"The Lost Symbol", "year": 2009 },
+      { "id":"6",  "author":"Dan Brown", "title":"Inferno", "year": 2013 },
+      { "id":"7",  "author":"Dan Brown" },
+
+      { "id":"8",  "author":"J. K. Rowling", "title":"Harry Potter and the Philosopher's Stone", "year": 1997 },
+      { "id":"9",  "author":"J. K. Rowling", "title":"Harry Potter and the Chamber of Secrets", "year": 1998 },
+      { "id":"10",  "author":"J. K. Rowling", "title":"Harry Potter and the Prisoner of Azkaban", "year": 1999 },
+      { "id":"11", "author":"J. K. Rowling", "title":"Harry Potter and the Globlet of Fire", "year": 2000 },
+      { "id":"12", "author":"J. K. Rowling", "title":"Harry Potter and the Order of the Phoenix", "year": 2003 },
+      { "id":"13", "author":"J. K. Rowling", "title":"Harry Potter and the Half-Blood Prince", "year": 2005 },
+      { "id":"14", "author":"J. K. Rowling", "title":"Harry Potter and the Deathly Hallows", "year": 2007 }
+    ]
+  }
+}

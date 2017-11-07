@@ -33,11 +33,14 @@
 
     <ww-table id="tblBooks" title="List of books">
         <ww-datasource-restful id="dsBooks" slot="datasource"
-            header-keys="['id','key','name']"
-            header-labels="['ID','Key','Name']"
-            target-url="http://localhost/projects/trcloud/app/defgroups/list"
+            header-keys="['id','author','title', 'year']"
+            header-labels="['ID','Author','Title','Year']"
+            target-url="opendata.json"
+            target-path="result/records"
         ></ww-datasource-restful>
     </ww-table>
+
+    <!-- target-url="http://localhost/projects/trcloud/app/defgroups/list" -->
 
     <script type="text/javascript">
         const $tblBooks = document.querySelector('#tblBooks');

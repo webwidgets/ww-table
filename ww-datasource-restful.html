@@ -32,7 +32,7 @@
 
             static get is() { return 'ww-datasource-restful'; }
 
-            static get observedAttributes() { return [ 'header-labels', 'header-keys', 'target-url' ]; }
+            static get observedAttributes() { return [ 'header-labels', 'header-keys', 'target-url', 'target-path' ]; }
 
             //Respond to attribute change.
             attributeChangedCallback(attr, oldValue, newValue) {
@@ -42,8 +42,11 @@
                 } else if (attr == 'header-keys') {
                     this._headerKeys = eval(newValue);
                     this.attributeUpdateHeader();
-                } else if (attr == 'target-url')
+                } else if (attr == 'target-url') {
                     this._targetUrl = newValue;
+                } else if (attr == 'target-path') {
+                    this._targetPath = newValue;
+                }
             }//EndFunction.
 
             attributeUpdateHeader() {
@@ -62,7 +65,18 @@
 
                 const $self = this;
                 Utils.HttpGetRequest(this._targetUrl).then( datum => {
-                    var __jsonDatum = JSON.parse(datum)
+                    var __jsonDatum = JSON.parse(datum); //Parse the response body. Assume it is JSON.
+
+                    //Follow the specified path within the JSON.
+                    if (typeof $self._targetPath !== 'undefined') {
+                        const _path = $self._targetPath.split('/');
+                        for (let i=0,_field=null; i<_path.length && (_field=_path[i]); i++) {
+                            if (__jsonDatum.hasOwnProperty(_field) == false)
+                                throw "Error while processing JSON response body. It does not have the path " + $self._targetPath;
+                            __jsonDatum = __jsonDatum[_field];
+                        }//endfor.
+                    }
+
                     $self.parentElement.onRowsUpdate(__jsonDatum);
                 }).catch( err => {
                     $self.parentElement.onError({ message: "Cannot load the list of items." });

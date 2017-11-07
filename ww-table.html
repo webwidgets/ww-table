@@ -22,14 +22,13 @@
 <dom-module id="ww-table">
     <template>
 
-        <!--<style is="custom-style" include="metal-style"></style>-->
         <style is="custom-style">
 
             table {
                 font-family: Roboto,"Helvetica Neue",sans-serif;
-                border-collapse: separate;
+                border-collapse: collapse;
                 border-spacing: 0px;
-                border: solid 1px rgba(34,36,38,.1);
+                border: solid 0px rgba(34,36,38,.1);
                 border-radius:3px;
                 width: 100%;
                 background-color: #fff;
@@ -83,11 +82,6 @@
                 cursor: hand;
             }
 
-            table, th, td {
-                border: 1px solid lightgrey;
-                border-collapse: collapse;
-            }
-
             .columnCommands {
                 padding: 0px;
                 margin: 0px;
@@ -107,8 +101,8 @@
                 <tr>
                     <th class="caption" colspan="100%">
                         <div>
-                            <ww-spinner id="spiLoading" hidden></ww-spinner>
                             <span id="lblCaption"></span>
+                            <ww-spinner id="spiLoading" hidden></ww-spinner>
                             <span id="lblErrorMessage" class="error" hidden>Error</span>
                         </div>
                     </th>
@@ -172,12 +166,16 @@
                 for (let i=0; i<dataRows.length; i++) {//Loop over rows.
                     const _row = dataRows[i];
                     const htr = document.createElement('tr');
-                    this.$.tblbody.appendChild(htr);
+                    this.$.tblBody.appendChild(htr);
 
                     for (let j=0; j<this._columns.length; j++) {//Loop over cols.
                         const _col = this._columns[j];
                         const _key = _col.key;
-                        const _value = _row[_key];
+
+                        //Jump cell if the row does not have the key.
+                        var _value = "";
+                        if (_row.hasOwnProperty(_key))
+                            _value = _row[_key];//Get the cell value.
 
                         const htd = document.createElement('td');
                         htd.innerText = _value;
@@ -191,7 +189,7 @@
 
             onError(error) {
                 this.$.spiLoading.hide();
-                this.$.lblErrorMessage.innerText = error.message;
+                this.$.lblErrorMessage.innerText = '(' + error.message + ')';
                 this.$.lblErrorMessage.removeAttribute("hidden");
             }//EndFunction.
 
